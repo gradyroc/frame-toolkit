@@ -9,7 +9,11 @@ import java.util.Arrays;
 public class SortUtil {
 
 
+    // 对于下标相同的两个数交换的时候，异或的方式会有bug，可做如下改进
     public static void swap(int[] arr, int i, int j) {
+        if (i==j){
+            return;
+        }
         arr[i] = arr[i] ^ arr[j];
         arr[j] = arr[i] ^ arr[j];
         arr[i] = arr[i] ^ arr[j];
