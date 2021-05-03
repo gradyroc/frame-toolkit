@@ -6,7 +6,70 @@
 
     <groupId>cn.tools</groupId>
     <artifactId>tools-kit</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>exceptions-kit</module>
+    </modules>
 
+
+    <properties>
+        <java.version>1.8</java.version>
+        <plugin.source.version>3.0.1</plugin.source.version>
+    </properties>
+
+<profiles>
+    <profile>
+        <id>boot-build</id>
+        <activation>
+            <property>
+                <name>build</name>
+                <value>boot</value>
+            </property>
+        </activation>
+        <build>
+            <resources>
+                <resource>
+                    <directory>src/main/resources/</directory>
+                    <excludes>
+                        <exclude>*</exclude>
+                    </excludes>
+                </resource>
+                <resource>
+                    <directory>src/main/java/</directory>
+                    <includes>
+                        <include>**/*.xml</include>
+                    </includes>
+                </resource>
+            </resources>
+            <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <!-- Source -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${plugin.source.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            </plugins>
+        </build>
+
+    </profile>
+</profiles>
 
 </project>
