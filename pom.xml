@@ -11,6 +11,7 @@
     <modules>
         <module>exceptions-kit</module>
         <module>netty-kit</module>
+        <module>algorithm-kit</module>
     </modules>
 
 
