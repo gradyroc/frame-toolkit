@@ -19,6 +19,13 @@ public class SortUtil {
         arr[i] = arr[i] ^ arr[j];
     }
 
+    public static boolean checkArryNeedSort(int[] arr){
+        if (arr == null || arr.length < 2) {
+            return false;
+        }else {
+            return true;
+        }
+    }
     public static void comparator(int[] arr) {
         Arrays.sort(arr);
     }
