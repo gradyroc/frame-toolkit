@@ -11,7 +11,7 @@ public class SortUtil {
 
     // 对于下标相同的两个数交换的时候，异或的方式会有bug，可做如下改进
     public static void swap(int[] arr, int i, int j) {
-        if (i==j){
+        if (i == j) {
             return;
         }
         arr[i] = arr[i] ^ arr[j];
@@ -19,13 +19,14 @@ public class SortUtil {
         arr[i] = arr[i] ^ arr[j];
     }
 
-    public static boolean checkArryNeedSort(int[] arr){
+    public static boolean checkArryNeedSort(int[] arr) {
         if (arr == null || arr.length < 2) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }
+
     public static void comparator(int[] arr) {
         Arrays.sort(arr);
     }
@@ -51,22 +52,23 @@ public class SortUtil {
 
     //array comparator
     public static boolean isEqual(int[] arr1, int[] arr2) {
-        if ((arr1 == null && arr2 != null) || (arr1 != null) && (arr2 == null)){
+        if ((arr1 == null && arr2 != null) || (arr1 != null) && (arr2 == null)) {
             return false;
         }
-        if (arr1==null && arr2==null){
+        if (arr1 == null && arr2 == null) {
             return true;
         }
-        if (arr1.length!= arr2.length){
+        if (arr1.length != arr2.length) {
             return false;
         }
         for (int i = 0; i < arr1.length; i++) {
-            if (arr1[i]!=arr2[i]){
+            if (arr1[i] != arr2[i]) {
                 return false;
             }
         }
         return true;
     }
+
     // for test
     public static void printArray(int[] arr) {
         if (arr == null) {

@@ -5,8 +5,8 @@ import java.util.Arrays;
 /**
  * @author rociss
  * @version 1.0, on 18:16 2021/5/3.
- *
- *
+ * <p>
+ * <p>
  * 冒泡排序
  */
 
@@ -57,22 +57,23 @@ public class Code_00_BubbleSort {
 
     //array comparator
     public static boolean isEqual(int[] arr1, int[] arr2) {
-        if ((arr1 == null && arr2 != null) || (arr1 != null) && (arr2 == null)){
+        if ((arr1 == null && arr2 != null) || (arr1 != null) && (arr2 == null)) {
             return false;
         }
-        if (arr1==null && arr2==null){
+        if (arr1 == null && arr2 == null) {
             return true;
         }
-        if (arr1.length!= arr2.length){
+        if (arr1.length != arr2.length) {
             return false;
         }
         for (int i = 0; i < arr1.length; i++) {
-            if (arr1[i]!=arr2[i]){
+            if (arr1[i] != arr2[i]) {
                 return false;
             }
         }
         return true;
     }
+
     // for test
     public static void printArray(int[] arr) {
         if (arr == null) {
