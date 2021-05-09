@@ -1,4 +1,4 @@
-package cn.grady.nio;
+package cn.grady.nio.groupchat;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -49,6 +49,10 @@ public class GroupChatServer {
                         if (key.isAcceptable()) {
                             //accept event ,用一个socketchannel accept
                             SocketChannel socketChannel = listenChannel.accept();
+
+                            //设置非阻塞
+                            socketChannel.configureBlocking(false);
+
                             //regist the socketchannel to the selector
                             socketChannel.register(selector, SelectionKey.OP_READ);
 
@@ -102,6 +106,16 @@ public class GroupChatServer {
 
         } catch (Exception e) {
             e.printStackTrace();
+            try {
+                System.out.println(channel.getRemoteAddress()+"offline");
+                //取消注册
+                key.cancel();
+                //关闭通道
+                channel.close();
+
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -120,5 +134,8 @@ public class GroupChatServer {
 
     public static void main(String[] args) {
 
+        // start server
+        GroupChatServer server = new GroupChatServer();
+        server.listen();
     }
 }
