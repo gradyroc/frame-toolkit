@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySources;
  */
 @Configuration
 @PropertySources({
-        @PropertySource(value = "classpath:application.properties"),
+//        @PropertySource(value = "classpath:application.properties"),
         //为默认加载
 })
 public class AppConfig {
