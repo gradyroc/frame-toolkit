@@ -1,4 +1,4 @@
-package cn.grady.tools.enumeration;
+package cn.grady.tools.common.enumeration;
 
 /**
  * @author grady
@@ -14,7 +14,6 @@ public enum ThreadType implements BasicEnum<String> {
      * 枚举值
      */
     private String value;
-
 
     /**
      * 枚举描述

@@ -1,11 +1,14 @@
 package cn.grady.tools.pool;
 
 import cn.grady.tools.disruptorkit.Startable;
-import cn.grady.tools.enumeration.ThreadType;
+import cn.grady.tools.common.enumeration.ThreadType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author grady
@@ -17,6 +20,9 @@ public class PoolLoopService implements Startable {
 
     //最大线程数
     private static final int MAX_THREAD_COUNT = 3;
+
+    @Autowired
+    private List<AbstractPoolThread> list;
 
     //
     private ThreadPoolTaskScheduler scheduler;
@@ -37,11 +43,39 @@ public class PoolLoopService implements Startable {
 
         //TODO: 2021/5/12 线程补全
 
+        for (AbstractPoolThread apt : list) {
+
+            try {
+                this.scheduler.scheduleWithFixedDelay(apt, apt.getIntervalMs());
+                logger.info("   ======>> start：{}", apt.getClass().getSimpleName());
+
+            } catch (Throwable t) {
+                throw t;
+            }
+        }
+
+        logger.info("loop thread start over !");
+
+
     }
 
     @Override
     public void shutdown() {
+        AbstractPoolThread.shutDown();
 
+        try {
+            this.scheduler.shutdown();
+            for (;;){
+                if (this.scheduler.getScheduledExecutor().isTerminated()){
+                    break;
+                }
+                Thread.sleep(100);
+            }
+            logger.info("stop the loop thread over !");
+        } catch (InterruptedException e) {
+            logger.error("stop the loop thread failed !",e);
+
+        }
     }
 
     @Override
