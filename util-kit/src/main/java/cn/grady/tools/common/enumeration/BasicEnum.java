@@ -1,4 +1,4 @@
-package cn.grady.tools.enumeration;
+package cn.grady.tools.common.enumeration;
 
 /**
  * @author grady
@@ -6,10 +6,10 @@ package cn.grady.tools.enumeration;
  * 枚举类通用
  */
 public interface BasicEnum<T> {
-    public T getValue();
+    T getValue();
 
-    public String getDescription();
+    String getDescription();
 
     @Override
-    public String toString();
+    String toString();
 }
