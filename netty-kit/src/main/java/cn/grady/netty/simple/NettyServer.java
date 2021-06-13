@@ -1,10 +1,7 @@
 package cn.grady.netty.simple;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -42,6 +39,9 @@ public class NettyServer {
                          */
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
+                            System.out.println("client socketchannel hashcode = "+ch.hashCode());
+                            //可以使用集合管理socketchannel，推送消息时可以将业务加入到各个channel对应的NIOEventLoop的taskQueue中，或者scheduleTaskQueue中
+
                             ch.pipeline().addLast(new NettyServerHandler());
                         }
                     }); //给 workerGroup 的EventLoop对应的管道设置处理器
@@ -51,6 +51,19 @@ public class NettyServer {
             //bind port and 同步，生成future对象
             //start server
             ChannelFuture future = bootstrap.bind(6668).sync();
+            // future - listener 机制
+            //给future 注册监听器，监控关心的时间
+            future.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
+                    if (future.isSuccess()){
+                        System.out.println("listen port 6668 success");
+                    }else {
+                        System.out.println("listen port 6668 failer");
+
+                    }
+                }
+            });
 
             //对关闭通道进行监听
             future.channel().closeFuture().sync();
