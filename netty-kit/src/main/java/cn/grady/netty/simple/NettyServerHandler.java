@@ -7,6 +7,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelPipeline;
 import io.netty.util.CharsetUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author grady
@@ -15,6 +19,7 @@ import io.netty.util.CharsetUtil;
  */
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
+    private static final Logger logger = LoggerFactory.getLogger(NettyServerHandler.class);
 
     /**
      * ChannelHandlerContext ctx 上下文对象，含有管道pipeline 通道channel，地址
@@ -30,14 +35,52 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
 //        msg-> ByteBuf. netty 提供，不是NIO的ByteBuffer
 
-        System.out.println("server thread name "+Thread.currentThread().getName());
-        Channel channel = ctx.channel();
-        ChannelPipeline pipeline = ctx.pipeline(); //本质是双向链表，出栈入栈问题
+//        System.out.println("server thread name "+Thread.currentThread().getName());
+//        Channel channel = ctx.channel();
+//        ChannelPipeline pipeline = ctx.pipeline(); //本质是双向链表，出栈入栈问题
+//
+//
+//        ByteBuf buf = (ByteBuf) msg;
+//        System.out.printf("message from client is :{%s}", buf.toString(CharsetUtil.UTF_8));
+//        System.out.printf("address of client is :{%s}", ctx.channel().remoteAddress());
+
+        /**
+         * 如果业务耗时严重-》异步 -》 提交该 channel 到对应的 NIOEventLoop 的 taskQueue 中
+         *solution1 自定义普通任务
+         *solution2 :用户自定义定时任务
+         */
+        //solution1 自定义普通任务
+        ctx.channel().eventLoop().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3 * 1000);
+                    ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client !", CharsetUtil.UTF_8));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    logger.error("ocour exceptions ", e.fillInStackTrace());
+                }
+            }
+        });
+
+        System.out.println("go on server work !");
+
+        //solution2 :用户自定义定时任务
+        // 用户自定义定时任务，该任务提交到schduleTaskQueue
+        ctx.channel().eventLoop().schedule(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3 * 1000);
+                    ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client !", CharsetUtil.UTF_8));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    logger.error("ocour exceptions ", e.fillInStackTrace());
+                }
+            }
+        }, 5, TimeUnit.SECONDS);
 
 
-        ByteBuf buf = (ByteBuf) msg;
-        System.out.printf("message from client is :{%s}", buf.toString(CharsetUtil.UTF_8));
-        System.out.printf("address of client is :{%s}", ctx.channel().remoteAddress());
     }
 
     /**
