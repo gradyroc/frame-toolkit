@@ -29,6 +29,7 @@ public class NettyServer {
                     .channel(NioServerSocketChannel.class) //use NIOServerSocketChannel 作为服务端通道实现
                     .option(ChannelOption.SO_BACKLOG, 128) // 链接个数
                     .childOption(ChannelOption.SO_KEEPALIVE, true) // 保持活动链接状态
+                    .handler(null) // handler 对应的bossGroup ，childHandler对应的是workerGroup
                     .childHandler(new ChannelInitializer<SocketChannel>() {
 
                         /**
