@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * @author grady
  * @version 1.0, on 1:25 2021/6/16.
  */
-public class MyServer {
+public class MyHeartBeatServer {
 
     public static void main(String[] args) throws InterruptedException {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
