@@ -12,11 +12,11 @@ import io.netty.handler.codec.string.StringEncoder;
  * @author grady
  * @version 1.0, on 1:27 2021/6/15.
  */
-public class GroupCharServer {
+public class GroupChatServer {
 
     private int port;
 
-    public GroupCharServer(int port) {
+    public GroupChatServer(int port) {
         this.port = port;
     }
 
@@ -67,7 +67,7 @@ public class GroupCharServer {
 
     public static void main(String[] args) throws InterruptedException {
 
-        new GroupCharServer(7000).run();
+        new GroupChatServer(7000).run();
 
     }
 
