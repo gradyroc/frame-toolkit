@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author grady
@@ -24,6 +26,14 @@ public class GroupChatServerHandler extends SimpleChannelInboundHandler<String> 
      * GlobalEventExecutor.INSTANCE 是全局时间执行器，单例
      */
     private static ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+
+    /**
+     * hashmap 管理私聊的channel
+     *
+     */
+    public static Map<String ,Channel> channelMap = new HashMap<>();
+    public static Map<User ,Channel> userChannelMap = new HashMap<>();
+
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -44,6 +54,8 @@ public class GroupChatServerHandler extends SimpleChannelInboundHandler<String> 
 
 
         channelGroup.add(channel);
+        channelMap.put("id"+channel.hashCode(),channel);
+        userChannelMap.put(new User(10,"xxx"),channel);
     }
 
 
@@ -106,6 +118,7 @@ public class GroupChatServerHandler extends SimpleChannelInboundHandler<String> 
                 ch.writeAndFlush("[self] send a msg :" + msg + "\n");
             }
         });
+        //如果是私聊，从hashMap中拿到对应的channel 转发即可
     }
 
     @Override
