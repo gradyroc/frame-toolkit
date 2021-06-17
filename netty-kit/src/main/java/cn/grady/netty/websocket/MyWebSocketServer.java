@@ -57,8 +57,9 @@ public class MyWebSocketServer {
                              * 2、 WebSocketFrame  下面有6个子类
                              * 3、 浏览器发送请求时， ws://localhost:7000/xxxx 表示请求的uri
                              * 4、 WebSocketServerProtocolHandler 核心功能是将 http 协议升级为ws协议，保持长链接
+                             * 5、是通过一个状态码101
                              */
-                            pipeline.addLast(new WebSocketServerProtocolHandler("/xxxx"));
+                            pipeline.addLast(new WebSocketServerProtocolHandler("/hello"));
 
                             pipeline.addLast("myWebSocketServerHandler", new MyTextWebSocketFrameHandler());
 
