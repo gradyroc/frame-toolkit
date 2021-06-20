@@ -1,4 +1,4 @@
-package cn.grady.netty.codec;
+package cn.grady.netty.singlecodec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -20,8 +20,10 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 //        super.channelActive(ctx);
-        System.out.println("client "+ctx);
-        ctx.writeAndFlush(Unpooled.copiedBuffer("hello server ~",CharsetUtil.UTF_8));
+        System.out.println("client " + ctx);
+        //发生一个student 对象到服务器
+        StudentPOJO.Student.Builder student = StudentPOJO.Student.newBuilder().setId(4).setName("gradyzhou");
+        ctx.writeAndFlush(student);
     }
 
 

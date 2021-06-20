@@ -1,10 +1,11 @@
-package cn.grady.netty.codec;
+package cn.grady.netty.singlecodec;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
 
 /**
  * @author grady
@@ -29,7 +30,7 @@ public class NettyServer {
                     .channel(NioServerSocketChannel.class) //use NIOServerSocketChannel 作为服务端通道实现
                     .option(ChannelOption.SO_BACKLOG, 128) // 链接个数
                     .childOption(ChannelOption.SO_KEEPALIVE, true) // 保持活动链接状态
-                    .handler(null) // handler 对应的bossGroup ，childHandler对应的是workerGroup
+//                    .handler(null) // handler 对应的bossGroup ，childHandler对应的是workerGroup
                     .childHandler(new ChannelInitializer<SocketChannel>() {
 
                         /**
@@ -42,8 +43,9 @@ public class NettyServer {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             System.out.println("client socketchannel hashcode = "+ch.hashCode());
                             //可以使用集合管理socketchannel，推送消息时可以将业务加入到各个channel对应的NIOEventLoop的taskQueue中，或者scheduleTaskQueue中
-
-                            ch.pipeline().addLast(new NettyServerHandler());
+                            ChannelPipeline pipeline = ch.pipeline();
+                            pipeline.addLast("decoder", new ProtobufDecoder(StudentPOJO.Student.getDefaultInstance()));
+                            pipeline.addLast(new NettyServerHandler());
                         }
                     }); //给 workerGroup 的EventLoop对应的管道设置处理器
 
