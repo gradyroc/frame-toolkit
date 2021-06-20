@@ -1,4 +1,4 @@
-package cn.grady.netty.singlecodec;
+package cn.grady.netty.multimsgcodec;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -41,10 +41,10 @@ public class NettyServer {
                          */
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            System.out.println("client socketchannel hashcode = "+ch.hashCode());
+                            System.out.println("client socketchannel hashcode = " + ch.hashCode());
                             //可以使用集合管理socketchannel，推送消息时可以将业务加入到各个channel对应的NIOEventLoop的taskQueue中，或者scheduleTaskQueue中
                             ChannelPipeline pipeline = ch.pipeline();
-                            pipeline.addLast("decoder", new ProtobufDecoder(StudentPOJO.Student.getDefaultInstance()));
+                            pipeline.addLast("decoder", new ProtobufDecoder(MultiDataInfo.MyMessage.getDefaultInstance()));
                             pipeline.addLast(new NettyServerHandler());
                         }
                     }); //给 workerGroup 的EventLoop对应的管道设置处理器
@@ -57,11 +57,10 @@ public class NettyServer {
             // future - listener 机制
             //给future 注册监听器，监控关心的时间
             future.addListener(new ChannelFutureListener() {
-                @Override
                 public void operationComplete(ChannelFuture future) throws Exception {
-                    if (future.isSuccess()){
+                    if (future.isSuccess()) {
                         System.out.println("listen port 6668 success");
-                    }else {
+                    } else {
                         System.out.println("listen port 6668 failer");
 
                     }
@@ -70,7 +69,7 @@ public class NettyServer {
 
             //对关闭通道进行监听
             future.channel().closeFuture().sync();
-        }  finally {
+        } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

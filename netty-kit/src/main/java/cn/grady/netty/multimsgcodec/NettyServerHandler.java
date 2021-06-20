@@ -1,20 +1,18 @@
-package cn.grady.netty.singlecodec;
+package cn.grady.netty.multimsgcodec;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author grady
  * @version 1.0, on 0:42 2021/6/11.
  * 自定义handler 继承netty 规定好的某个handlerAdapter，才会被调用为一个handler
  */
-public class NettyServerHandler extends ChannelInboundHandlerAdapter {
+public class NettyServerHandler extends SimpleChannelInboundHandler<MultiDataInfo.MyMessage> {
 
     private static final Logger logger = LoggerFactory.getLogger(NettyServerHandler.class);
 
@@ -27,11 +25,17 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      * @throws Exception
      */
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        //读取从客户端发送的StudentJOJO.Student
-        StudentPOJO.Student student = (StudentPOJO.Student) msg;
-        System.out.println("from client's data id = " + student.getId() + " name :" + student.getName());
-
+    protected void channelRead0(ChannelHandlerContext ctx, MultiDataInfo.MyMessage msg) throws Exception {
+        MultiDataInfo.MyMessage.DataType dataType = msg.getDataType();
+        if (dataType == MultiDataInfo.MyMessage.DataType.StudentType) {
+            MultiDataInfo.Student student = msg.getStudent();
+            System.out.println("student  id :" + student.getId() + " name :" + student.getName());
+        } else if (dataType == MultiDataInfo.MyMessage.DataType.WorkerType) {
+            MultiDataInfo.Worker worker = msg.getWorker();
+            System.out.println("Worker  age :" + worker.getAge() + " name :" + worker.getName());
+        } else {
+            System.out.println("传输的类型不正确");
+        }
     }
 
     /**

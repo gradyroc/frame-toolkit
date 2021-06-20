@@ -1,4 +1,4 @@
-package cn.grady.netty.multicodec;
+package cn.grady.netty.multimsgcodec;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
