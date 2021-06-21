@@ -33,7 +33,13 @@ public class MyServerHandler extends SimpleChannelInboundHandler<MessageProtocal
 
         //server send data  to client a random id
 
+        String response = UUID.randomUUID().toString();
+        int length = response.getBytes("utf-8").length;
+        MessageProtocal messageProtocal = new MessageProtocal();
+        messageProtocal.setLen(length);
+        messageProtocal.setContent(response.getBytes("utf-8"));
 
+        ctx.writeAndFlush(messageProtocal);
 
     }
 }

@@ -17,6 +17,8 @@ public class MyServerInitializer extends ChannelInitializer<SocketChannel> {
 
 
         pipeline.addLast(new MessageDecoder());//添加解码器
+
+        pipeline.addLast(new MessageEncoder());
         //加入自定义业务处理逻辑handler
         pipeline.addLast(new MyServerHandler());
 

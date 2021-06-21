@@ -23,6 +23,7 @@ public class MyClientInitializer extends ChannelInitializer<SocketChannel> {
 
         //加入出站的handler
         pipeline.addLast(new MessageEncoder());//自定义编码器
+        pipeline.addLast(new MessageDecoder());
         pipeline.addLast(new MyClientHandler());
     }
 }
