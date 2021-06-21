@@ -10,11 +10,13 @@ import io.netty.util.CharsetUtil;
  * @version 1.0, on 1:55 2021/6/21.
  */
 public class MyClientHandler extends SimpleChannelInboundHandler<Long> {
+
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Long msg) throws Exception {
-
+        System.out.println("client's IP :" + ctx.channel().remoteAddress());
+        System.out.println("from server's msg : " + msg);
     }
-
 
 
     //重写active 方法，发送数据
@@ -22,8 +24,8 @@ public class MyClientHandler extends SimpleChannelInboundHandler<Long> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
-//        System.out.println("client send message method  is called !");
-//        ctx.writeAndFlush(123456L);//发送的是long
+        System.out.println("client send message method  is called !");
+        ctx.writeAndFlush(123456L);//发送的是long
 
         /**
          * 1、abcdabcdabcdabcd 16个字节
@@ -46,7 +48,7 @@ public class MyClientHandler extends SimpleChannelInboundHandler<Long> {
          *
          *  4、因此我们在编写encoder 时，要注意传入的类型和处理的数据类型要一致
          */
-        ctx.writeAndFlush(Unpooled.copiedBuffer("abcdabcdabcdabcd",CharsetUtil.UTF_8));
+//        ctx.writeAndFlush(Unpooled.copiedBuffer("abcdabcdabcdabcd", CharsetUtil.UTF_8));
 
     }
 }

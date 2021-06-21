@@ -12,6 +12,10 @@ public class MyServerHandler extends SimpleChannelInboundHandler<Long> {
     protected void channelRead0(ChannelHandlerContext ctx, Long msg) throws Exception {
 
         System.out.println("from client" + ctx.channel().remoteAddress() + "  msg : " + msg);
+
+        System.out.println("send to client a long 98765L");
+
+        ctx.writeAndFlush(98765L);
     }
 
     @Override

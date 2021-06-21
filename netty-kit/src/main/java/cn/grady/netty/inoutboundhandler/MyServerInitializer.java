@@ -18,6 +18,10 @@ public class MyServerInitializer extends ChannelInitializer<SocketChannel> {
         //入站的handler 进行解码，
         pipeline.addLast(new MyByteToLongDecoder());
 
+        // 自动识别用编码还是解码器
+        //出站编码器
+        pipeline.addLast(new MyLongToByteEncoder());
+
         //加入自定义业务处理逻辑handler
         pipeline.addLast(new MyServerHandler());
 
