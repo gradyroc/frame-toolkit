@@ -7,9 +7,12 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelPipeline;
 import io.netty.util.CharsetUtil;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
+import io.netty.util.concurrent.EventExecutorGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,6 +21,11 @@ import java.util.concurrent.TimeUnit;
  * 自定义handler 继承netty 规定好的某个handlerAdapter，才会被调用为一个handler
  */
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
+
+    /**
+     * 处理业务的线程池，创建了16个
+     */
+    static final EventExecutorGroup group = new DefaultEventExecutorGroup(16);
 
     private static final Logger logger = LoggerFactory.getLogger(NettyServerHandler.class);
 
@@ -32,7 +40,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 //        super.channelRead(ctx, msg);
-
+        System.out.println("server handler's channelread thread:"+Thread.currentThread().getName());
 //        msg-> ByteBuf. netty 提供，不是NIO的ByteBuffer
 
 //        System.out.println("server thread name "+Thread.currentThread().getName());
@@ -50,35 +58,66 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
          *solution2 :用户自定义定时任务
          */
         //solution1 自定义普通任务
-        ctx.channel().eventLoop().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(3 * 1000);
-                    ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client !", CharsetUtil.UTF_8));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    logger.error("ocour exceptions ", e.fillInStackTrace());
-                }
-            }
-        });
+//        ctx.channel().eventLoop().execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(3 * 1000);
+//                    ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client !", CharsetUtil.UTF_8));
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                    logger.error("ocour exceptions ", e.fillInStackTrace());
+//                }
+//            }
+//        });
 
         System.out.println("go on server work !");
 
+        //异步任务
         //solution2 :用户自定义定时任务
         // 用户自定义定时任务，该任务提交到schduleTaskQueue
-        ctx.channel().eventLoop().schedule(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(3 * 1000);
-                    ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client !", CharsetUtil.UTF_8));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    logger.error("ocour exceptions ", e.fillInStackTrace());
-                }
-            }
-        }, 5, TimeUnit.SECONDS);
+//        ctx.channel().eventLoop().schedule(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(3 * 1000);
+//                    ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client !", CharsetUtil.UTF_8));
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                    logger.error("ocour exceptions ", e.fillInStackTrace());
+//                }
+//            }
+//        }, 5, TimeUnit.SECONDS);
+
+//        /**
+//         * 异步任务
+//         * solution 3
+//         * 任务提交到业务线程池
+//         *
+//         */
+//        group.submit(new Callable<Object>() {
+//            @Override
+//            public Object call() throws Exception {
+//                //接收
+//                ByteBuf buf = (ByteBuf) msg;
+//                byte[] bytes = new byte[buf.readableBytes()];
+//                buf.readBytes(bytes);
+//                String body = new String(bytes, "UTF-8");
+//
+//                Thread.sleep(3*1000);
+//                System.out.println("group submit's call thread:"+Thread.currentThread().getName());
+//                ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client !", CharsetUtil.UTF_8));
+//                return null;
+//            }
+//        });
+                        ByteBuf buf = (ByteBuf) msg;
+                byte[] bytes = new byte[buf.readableBytes()];
+                buf.readBytes(bytes);
+                String body = new String(bytes, "UTF-8");
+
+                Thread.sleep(3*1000);
+                System.out.println("group general call thread:"+Thread.currentThread().getName());
+                ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client !", CharsetUtil.UTF_8));
 
 
     }

@@ -5,12 +5,20 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
+import io.netty.util.concurrent.EventExecutorGroup;
 
 /**
  * @author grady
  * @version 1.0, on 2:15 2021/6/9.
  */
 public class NettyServer {
+
+    /**
+     * 创建业务线程池
+     */
+    static final EventExecutorGroup group = new DefaultEventExecutorGroup(2);
+
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -29,7 +37,7 @@ public class NettyServer {
                     .channel(NioServerSocketChannel.class) //use NIOServerSocketChannel 作为服务端通道实现
                     .option(ChannelOption.SO_BACKLOG, 128) // 链接个数
                     .childOption(ChannelOption.SO_KEEPALIVE, true) // 保持活动链接状态
-                    .handler(null) // handler 对应的bossGroup ，childHandler对应的是workerGroup
+//                    .handler(null) // handler 对应的bossGroup ，childHandler对应的是workerGroup
                     .childHandler(new ChannelInitializer<SocketChannel>() {
 
                         /**
@@ -42,8 +50,16 @@ public class NettyServer {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             System.out.println("client socketchannel hashcode = "+ch.hashCode());
                             //可以使用集合管理socketchannel，推送消息时可以将业务加入到各个channel对应的NIOEventLoop的taskQueue中，或者scheduleTaskQueue中
+                            ChannelPipeline pipeline = ch.pipeline();
+//                            pipeline.addLast(new NettyServerHandler());
 
-                            ch.pipeline().addLast(new NettyServerHandler());
+                            /**
+                             * 异步任务
+                             * solution 4
+                             * 在addLast时，如果前面有指定EventExecutorGroup
+                             * 则 handler 默认优先加入到该线程池中
+                             */
+                            pipeline.addLast(group,new NettyServerHandler());
                         }
                     }); //给 workerGroup 的EventLoop对应的管道设置处理器
 
