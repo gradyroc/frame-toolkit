@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>group-chat</module>
+        <module>netty-dubbo-rpc</module>
     </modules>
     <dependencies>
         <dependency>
