@@ -13,6 +13,7 @@
         <module>netty-kit</module>
         <module>algorithm-kit</module>
         <module>util-kit</module>
+        <module>springboot-kit</module>
     </modules>
 
     <parent>
