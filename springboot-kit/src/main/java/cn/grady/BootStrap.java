@@ -1,5 +1,7 @@
 package cn.grady;
 
+import cn.grady.log.ShutdownHook;
+import cn.grady.log.ShutdownHookThread;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +15,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,8 +42,13 @@ public class BootStrap {
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(BootStrap.class);
         application.run(args);
+        registerShutdownHook();
 
+    }
 
+    public static void registerShutdownHook(){
+        logger.info("Start to register ShutdownHook");
+        Runtime.getRuntime().addShutdownHook(new ShutdownHook());
     }
 
 
@@ -74,9 +83,15 @@ public class BootStrap {
 
         private static boolean isRunning = false;
 
+        /**
+         * 2.实现ApplicationContextAware接口
+         * 重写setApplicationContext()方法，在此方法中执行额外任务。
+         * @param applicationContext
+         * @throws BeansException
+         */
         @Override
         public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-
+            AppContext.set((ConfigurableApplicationContext) applicationContext);
         }
 
         @Override
@@ -90,7 +105,7 @@ public class BootStrap {
 
         @Override
         public void stop() {
-
+            logger.info("stop the system");
         }
 
         @Override
@@ -98,6 +113,9 @@ public class BootStrap {
             return isRunning;
         }
 
+        public static boolean isSystemRunning(){
+            return isRunning;
+        }
         @Override
         public boolean isAutoStartup(){
             return true;

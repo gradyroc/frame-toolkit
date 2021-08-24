@@ -64,9 +64,9 @@ monitorInterval="5" 自动加载配置文件的间隔时间，不低于5秒
         </RandomAccessFile>
 
 <!--        &lt;!&ndash;        开启异步日志 AsyncAppender   &ndash;&gt;-->
-        <!--<Async name="Async">-->
-            <!--<AppenderRef ref="randomAccessFile"/>-->
-        <!--</Async>-->
+        <Async name="Async">
+            <AppenderRef ref="randomAccessFile"/>
+        </Async>
     </Appenders>
 
     <!--    logger 定义-->
@@ -87,7 +87,7 @@ monitorInterval="5" 自动加载配置文件的间隔时间，不低于5秒
         </AsyncLogger>
 
         <!--        默认使用rootLogger 配置，日志级别等-->
-        <Root level="trace">
+        <Root level="INFO">
 
             <!--            使用指定的日志处理器-->
             <AppenderRef ref="STDOUT"/>
@@ -97,4 +97,6 @@ monitorInterval="5" 自动加载配置文件的间隔时间，不低于5秒
         </Root>
     </Loggers>
 
+    <shutdownHook class="cn.grady.log.ShutdownHook">
+    </shutdownHook>
 </Configuration>

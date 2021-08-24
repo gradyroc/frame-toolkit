@@ -33,6 +33,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -90,62 +94,62 @@
             <version>23.0</version>
         </dependency>
 
-        <!--logging face -->
-        <!--       slf4j 日志门面-->
-        <!--        https://mvnrepository.com/artifact/org.slf4j/slf4j-api-->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
+        <!--&lt;!&ndash;logging face &ndash;&gt;-->
+        <!--&lt;!&ndash;       slf4j 日志门面&ndash;&gt;-->
+        <!--&lt;!&ndash;        https://mvnrepository.com/artifact/org.slf4j/slf4j-api&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>slf4j-api</artifactId>-->
+            <!--<version>${slf4j.version}</version>-->
+        <!--</dependency>-->
 
-        <!--        使用log4j2 的适配器进行绑定-->
-        <!--从而操作log4j2的日志门面使用log4j2-->
-        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.12.1</version>
-            <!--<scope>test</scope>-->
-        </dependency>
-
-
-        <!--      log4j2 的  日志门面-->
+        <!--&lt;!&ndash;        使用log4j2 的适配器进行绑定&ndash;&gt;-->
+        <!--&lt;!&ndash;从而操作log4j2的日志门面使用log4j2&ndash;&gt;-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl &ndash;&gt;-->
         <!--<dependency>-->
             <!--<groupId>org.apache.logging.log4j</groupId>-->
-            <!--<artifactId>log4j-api</artifactId>-->
+            <!--<artifactId>log4j-slf4j-impl</artifactId>-->
+            <!--<version>2.12.1</version>-->
+            <!--&lt;!&ndash;<scope>test</scope>&ndash;&gt;-->
+        <!--</dependency>-->
+
+
+        <!--&lt;!&ndash;      log4j2 的  日志门面&ndash;&gt;-->
+        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
+            <!--&lt;!&ndash;<groupId>org.apache.logging.log4j</groupId>&ndash;&gt;-->
+            <!--&lt;!&ndash;<artifactId>log4j-api</artifactId>&ndash;&gt;-->
+            <!--&lt;!&ndash;<version>2.12.1</version>&ndash;&gt;-->
+        <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;      log4j2 的  日志实现&ndash;&gt;-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.logging.log4j</groupId>-->
+            <!--<artifactId>log4j-core</artifactId>-->
             <!--<version>2.12.1</version>-->
         <!--</dependency>-->
 
-        <!--      log4j2 的  日志实现-->
-        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.12.1</version>
-        </dependency>
+        <!--&lt;!&ndash;bridge common logging to slf4j &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>jcl-over-slf4j</artifactId>-->
+            <!--<version>${slf4j.version}</version>-->
+        <!--</dependency>-->
 
-        <!--bridge common logging to slf4j -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-
-        <!--bridge jdk logging to slf4j -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jul-to-slf4j</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
+        <!--&lt;!&ndash;bridge jdk logging to slf4j &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>jul-to-slf4j</artifactId>-->
+            <!--<version>${slf4j.version}</version>-->
+        <!--</dependency>-->
 
 
-        <!--bridge log4j1 logging to slf4j -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
+        <!--&lt;!&ndash;bridge log4j1 logging to slf4j &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>log4j-over-slf4j</artifactId>-->
+            <!--<version>${slf4j.version}</version>-->
+        <!--</dependency>-->
 
 
     </dependencies>
