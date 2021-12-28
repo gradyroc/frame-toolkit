@@ -63,7 +63,7 @@ monitorInterval="5" 自动加载配置文件的间隔时间，不低于5秒
             <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5level] %l %c{36} - %m%n"/>
         </RandomAccessFile>
 
-<!--        &lt;!&ndash;        开启异步日志 AsyncAppender   &ndash;&gt;-->
+        <!--        开启异步日志 AsyncAppender   -->
         <Async name="Async">
             <AppenderRef ref="randomAccessFile"/>
         </Async>
