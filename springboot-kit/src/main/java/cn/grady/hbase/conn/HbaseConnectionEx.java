@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
  * @author grady
  * @version 1.0, on 0:57 2021/12/21.
  */
-public class HbaseConnectionEx extends Thread implements IConnection {
+public class HbaseConnectionEx extends Thread implements ConnectionEx {
 
     private static final Logger log = LoggerFactory.getLogger(HbaseConnectionEx.class);
     private static final String DEFAULT_DELIMITER_OF_NAMESPACE_AND_TABLE = ":";

@@ -17,6 +17,7 @@ public class TableMetaDTO extends BasicDTO {
 
     private String tableName;
     private RowkeyMeta rowkeyMeta;
+    private TimestampMeta timestampMeta;
     private Map<String, QuelifierMeta> quelifierMeta;
 
     public String getTableName() {
@@ -43,14 +44,22 @@ public class TableMetaDTO extends BasicDTO {
         this.quelifierMeta = quelifierMeta;
     }
 
-    private static class RowkeyMeta extends PrintableObject {
+    public TimestampMeta getTimestampMeta() {
+        return timestampMeta;
+    }
+
+    public void setTimestampMeta(TimestampMeta timestampMeta) {
+        this.timestampMeta = timestampMeta;
+    }
+
+    public static class RowkeyMeta extends PrintableObject {
         private static final long serialVersionUID = -7947809055532146575L;
         private Field field;
 
         public RowkeyMeta() {
         }
 
-        private RowkeyMeta(Field field) {
+        public RowkeyMeta(Field field) {
             this.field = field;
         }
 
@@ -69,7 +78,7 @@ public class TableMetaDTO extends BasicDTO {
 
     }
 
-    private static class QuelifierMeta {
+    public static class QuelifierMeta {
         public QuelifierMeta() {
         }
 
@@ -77,8 +86,8 @@ public class TableMetaDTO extends BasicDTO {
             return qualifierToField;
         }
 
-        public void setQualifierToField(Map<String, Field> qualifierToField) {
-            this.qualifierToField = qualifierToField;
+        public void setQualifierToField(String qualifier ,Field field) {
+            this.qualifierToField.put(qualifier,field);
         }
 
         private Map<String, Field> qualifierToField = new HashMap<>();
@@ -86,5 +95,21 @@ public class TableMetaDTO extends BasicDTO {
         public Field getFieldByQualifier(String qualifier) {
             return qualifierToField.get(qualifier);
         }
+    }
+    public static class TimestampMeta {
+        public Field getField() {
+            return field;
+        }
+
+        public void setField(Field field) {
+            this.field = field;
+        }
+
+        private Field field;
+
+        public TimestampMeta(Field field) {
+            this.field = field;
+        }
+
     }
 }
