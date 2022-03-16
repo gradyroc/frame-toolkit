@@ -14,6 +14,7 @@
         <module>algorithm-kit</module>
         <module>util-kit</module>
         <module>springboot-kit</module>
+        <module>mybatis-kit</module>
     </modules>
 
     <parent>

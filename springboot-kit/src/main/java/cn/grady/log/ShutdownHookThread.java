@@ -13,6 +13,7 @@ public class ShutdownHookThread extends Thread {
     @Override
     public void run() {
 
+        // 当容器启动完成之后，执行相关的任务
         while (BootStrap.Hook.isSystemRunning()){
             try {
                 Thread.sleep(1000);

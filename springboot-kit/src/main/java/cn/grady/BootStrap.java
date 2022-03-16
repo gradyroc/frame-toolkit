@@ -1,7 +1,6 @@
 package cn.grady;
 
 import cn.grady.log.ShutdownHook;
-import cn.grady.log.ShutdownHookThread;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

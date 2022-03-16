@@ -12,6 +12,7 @@ import java.util.concurrent.locks.Condition;
  */
 public class MyLock {
 
+
     // Our internal helper class
     private static class Sync extends AbstractQueuedSynchronizer {
         // Reports whether in locked state
@@ -24,8 +25,21 @@ public class MyLock {
         @Override
         public boolean tryAcquire(int acquires) {
             assert acquires == 1; // Otherwise unused
-            if (compareAndSetState(0, 1)) {
-                setExclusiveOwnerThread(Thread.currentThread());
+
+            int state = getState();
+            final Thread currentThread = Thread.currentThread();
+//            hasQueuedPredecessors() 有线程在队列中，返回true，否则返回false
+            if (state == 0) {
+                if (!hasQueuedPredecessors() &&
+                        compareAndSetState(0, 1)) {
+                    //拿到锁记得记录下持锁线程是自己
+                    setExclusiveOwnerThread(currentThread);
+                    return true;
+                }
+                return false;
+            } else if (currentThread == getExclusiveOwnerThread()) {
+                //如果锁被占了（state！=0） ,看看是不是当前线程自己占用的
+                setState(state + acquires);
                 return true;
             }
             return false;
