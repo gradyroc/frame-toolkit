@@ -35,6 +35,9 @@ package leetcode.editor.cn;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * 111   Given a binary tree, find its minimum depth.
+ */
 public class MinimumDepthOfBinaryTree{
     public static void main(String[] args) {
         Solution solution = new MinimumDepthOfBinaryTree().new Solution();

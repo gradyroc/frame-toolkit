@@ -50,6 +50,9 @@ package leetcode.editor.cn;
 
 import java.util.PriorityQueue;
 
+/**
+ * 23 合并k个链表
+ */
 
 public class MergeKSortedLists{
     public static void main(String[] args) {
