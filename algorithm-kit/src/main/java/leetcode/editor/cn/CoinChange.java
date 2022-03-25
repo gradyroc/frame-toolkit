@@ -43,6 +43,11 @@ package leetcode.editor.cn;
 // Related Topics 广度优先搜索 数组 动态规划 
 // 👍 1803 👎 0
 
+/**
+ * 尝试策略跟状态转移方程一码事
+ * 先写出尝试步骤，缓存表记录，再找位置关系
+ */
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
