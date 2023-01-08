@@ -20,8 +20,10 @@ public class Code_04_QuickSort {
     private static void quickSort(int[] arr, int l, int r) {
         if (l < r) {
             //区间内随机一个数据和right 交换
+            // 因为随机，O N*logN
             swap(arr, l + (int) (Math.random() * (r - l + 1)), r);
             // 返回两个区域，小于等于和大于的边界下标，如果中间有相等的数据即可不用考察了
+            //返回等于区域的左边界和右边界
             int[] p = partition(arr, l, r);
             quickSort(arr, l, p[0] - 1);
             quickSort(arr, p[1] + 1, r);
