@@ -15,6 +15,7 @@
         <module>util-kit</module>
         <module>springboot-kit</module>
         <module>mybatis-kit</module>
+        <module>mybatis-cache</module>
     </modules>
 
     <parent>

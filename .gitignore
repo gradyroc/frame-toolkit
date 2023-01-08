@@ -26,3 +26,5 @@ hs_err_pid*
 *.md
 */target/
 *.json
+*target/
+*doc/
