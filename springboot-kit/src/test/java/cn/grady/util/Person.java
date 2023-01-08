@@ -2,6 +2,8 @@ package cn.grady.util;
 
 import lombok.Data;
 
+import java.util.ServiceLoader;
+
 /**
  * @author grady
  * @version 1.0, on 11:40 2022/2/19.
@@ -23,6 +25,9 @@ public class Person {
         this.area = area;
     }
     // 省略了get和set，请自行添加
+
+
+//    ServiceLoader
 
 }
 

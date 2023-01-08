@@ -5,22 +5,22 @@ import java.util.Arrays;
 /**
  * @author rociss
  * @version 1.0, on 18:46 2021/5/3.
- *
+ * <p>
  * 插入排序
  */
 
 
 public class Code_01_InsertionSort {
 
-    public static void insertionSort(int[] arr){
-        if (arr ==null || arr.length<2){
+    public static void insertionSort(int[] arr) {
+        if (arr == null || arr.length < 2) {
             return;
         }
 
         for (int i = 0; i < arr.length; i++) {
             //将第i个元素插入前面的i-1 个位置之一，之前的数据有序
-            for (int j=i-1;j>=0&& arr[i]> arr[j+1];j--){
-                swap(arr,j,j+1);
+            for (int j = i - 1; j >= 0 && arr[i] > arr[j + 1]; j--) {
+                swap(arr, j, j + 1);
             }
         }
 
@@ -58,6 +58,7 @@ public class Code_01_InsertionSort {
         }
         return res;
     }
+
     // for test
     public static boolean isEqual(int[] arr1, int[] arr2) {
         if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {

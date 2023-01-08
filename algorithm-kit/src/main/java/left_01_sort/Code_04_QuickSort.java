@@ -79,9 +79,10 @@ public class Code_04_QuickSort {
             }
         }
         //最后将大于区间的第一个数和r交换，划分值就应该放在more位置
-       swap(arr, less+1 , r);
-        return less+1;
+        swap(arr, less + 1, r);
+        return less + 1;
     }
+
     private static void quickSortNotR(int[] arr, int left, int right) {
         if (!checkArryNeedSort(arr)) {
             return;
@@ -99,7 +100,7 @@ public class Code_04_QuickSort {
                 s.push(index - 1);
             }
             if ((index + 1) < r) {
-                s.push(index+1);
+                s.push(index + 1);
                 s.push(r);
             }
         }
@@ -115,7 +116,7 @@ public class Code_04_QuickSort {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
 //            quickSort(arr1);
-            quickSortNotR(arr1,0, arr1.length - 1);
+            quickSortNotR(arr1, 0, arr1.length - 1);
             comparator(arr2);
             if (!isEqual(arr1, arr2)) {
                 succeed = false;

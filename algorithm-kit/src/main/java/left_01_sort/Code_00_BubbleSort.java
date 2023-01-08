@@ -26,6 +26,15 @@ public class Code_00_BubbleSort {
         }
     }
 
+    /**
+     * i <> j,如果相等的位置，数据会被抹为0
+     * 0 ^ 任何数 = 任何数，
+     * 交换律，结合律
+     * 相同为0，不同为1
+     * @param arr
+     * @param i
+     * @param j
+     */
     private static void swap(int[] arr, int i, int j) {
         arr[i] = arr[i] ^ arr[j];
         arr[j] = arr[i] ^ arr[j];
