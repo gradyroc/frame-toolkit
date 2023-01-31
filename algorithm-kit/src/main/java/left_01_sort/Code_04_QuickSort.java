@@ -1,5 +1,6 @@
 package left_01_sort;
 
+import java.util.Collections;
 import java.util.Stack;
 
 import static util.SortUtil.*;
@@ -14,10 +15,22 @@ public class Code_04_QuickSort {
         if (arr == null || arr.length < 2) {
             return;
         }
+
+
         quickSort(arr, 0, arr.length - 1);
     }
 
     private static void quickSort(int[] arr, int l, int r) {
+        if(l==r){
+            return;
+        }
+
+//        if (l>r-60){
+//            //arr[1....r]插入排序
+//            //O(n^2)小样本量的时候，跑得快
+//            return;
+//        }
+
         if (l < r) {
             //区间内随机一个数据和right 交换
             // 因为随机，O N*logN
@@ -39,10 +52,10 @@ public class Code_04_QuickSort {
      */
     private static int[] partition(int[] arr, int l, int r) {
         //划分，首先记录左边区间的最右的下标，和右边大于区间的最左下标
-        int less = l - 1;
-        int more = r;
+        int less = l - 1;//<区 右边界
+        int more = r; //> 区左边界
 
-        while (l < more) {
+        while (l < more) { //l 表示当前数的位置arr[r] -> 划分值
             if (arr[l] < arr[r]) {
                 //此时判断的是l位置的值
                 //如果l 值 < r值，左边区域的右边界+1位置的数据和 l位置交换，且l+1
