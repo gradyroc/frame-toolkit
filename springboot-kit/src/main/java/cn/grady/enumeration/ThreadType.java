@@ -7,6 +7,7 @@ package cn.grady.enumeration;
 public enum ThreadType implements BasicEnum<String>{
     main("main","main thread"),
     Thread("Thread","normal async thread"),
+    scheduling("scheduling","spring scheduler thread"),
     ;
 
 
